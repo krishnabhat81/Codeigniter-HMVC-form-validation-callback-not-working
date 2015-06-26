@@ -33,8 +33,10 @@ class Test_Controller extends MX_Controller {
 	
 	//This is callback function
 	public function oldpassCheck($str){ 
-		if($str=='test'){
-			$this->form_validation->set_message('oldpassCheck', 'The %s field can not be the "test"');
+		$user_id = $this->session->userdata('user_id');
+		$password_matches = $this->ion_auth->hash_password_db($user_id, $str);
+		if(!$password_matches){
+			$this->form_validation->set_message('oldpassCheck', 'The old password is incorrect');
 			return FALSE;
 		}else
 		{
